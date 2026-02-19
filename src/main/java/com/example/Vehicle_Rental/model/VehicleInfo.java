@@ -16,14 +16,14 @@ public class VehicleInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "vehicleInfoId",updatable = false, nullable = false)
+    @Column(name = "vehicleId",updatable = false, nullable = false)
     private UUID id;
 
     @Column(nullable = false)
     private String vehicleName;
 
     @Column(nullable = false)
-    private int totalSeats;
+    private Integer totalSeats;
 
     @Column(nullable = false)
     private BigDecimal price;

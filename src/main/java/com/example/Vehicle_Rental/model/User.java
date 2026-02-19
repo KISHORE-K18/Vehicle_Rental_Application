@@ -1,9 +1,7 @@
 package com.example.Vehicle_Rental.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +21,12 @@ public class User {
 
     @Column(nullable = false)
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20, nullable = false)
+    private Role role;
+
+    private String password;
 
     @OneToMany(mappedBy="user",cascade=CascadeType.ALL)
     private List<Booking> bookings;
