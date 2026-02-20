@@ -1,14 +1,15 @@
 package com.example.Vehicle_Rental.mapper;
 
 import com.example.Vehicle_Rental.Domain.CreateVehicleRequest;
-import com.example.Vehicle_Rental.dtos.CreateVehicleInfoResponseDto;
-import com.example.Vehicle_Rental.dtos.CreateVehicleRequestDto;
-import com.example.Vehicle_Rental.dtos.CreateVehicleResponseDto;
-import com.example.Vehicle_Rental.dtos.GetVehicleDetailsResponseDto;
+import com.example.Vehicle_Rental.Domain.UpdateVehicleRequest;
+import com.example.Vehicle_Rental.dtos.*;
+import com.example.Vehicle_Rental.model.Booking;
 import com.example.Vehicle_Rental.model.Vehicle;
 import com.example.Vehicle_Rental.model.VehicleInfo;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring",unmappedTargetPolicy = ReportingPolicy.IGNORE )
 public interface VehicleMapper {
@@ -17,4 +18,12 @@ public interface VehicleMapper {
     CreateVehicleInfoResponseDto toDto(VehicleInfo vehicleInfo);
 
     GetVehicleDetailsResponseDto toGetDetailsDto(Vehicle vehicle);
+    VehicleBookingDto toDto(Booking booking);
+
+    UpdateVehicleRequest fromDto(UpdateVehicleRequestDto updateVehicleRequestDto);
+    UpdateVehicleResponseDto toUpdateDto(Vehicle vehicle);
+    UpdateVehicleInfoResponseDto toUpdateDto(VehicleInfo vehicleInfo);
+
+    List<BookingResponseDto> toBookingSummaryDtos(List<Booking> bookings);
+
 }

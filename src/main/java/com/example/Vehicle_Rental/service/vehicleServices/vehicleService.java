@@ -1,6 +1,7 @@
 package com.example.Vehicle_Rental.service.vehicleServices;
 
 import com.example.Vehicle_Rental.Domain.CreateVehicleRequest;
+import com.example.Vehicle_Rental.Domain.UpdateVehicleRequest;
 import com.example.Vehicle_Rental.dtos.CreateVehicleRequestDto;
 import com.example.Vehicle_Rental.model.Vehicle;
 import org.apache.catalina.connector.Response;
@@ -19,4 +20,5 @@ public interface vehicleService {
     Optional<Vehicle> getVehicleById(UUID vehicleId);
     void deleteVehicle(UUID vehicleId);
     Page<Vehicle> getAllVehicles(Pageable pageable);
+    Vehicle updateVehicle(UUID vehicleId, UpdateVehicleRequest updateVehicleRequest);
 }

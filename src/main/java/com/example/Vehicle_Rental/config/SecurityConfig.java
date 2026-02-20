@@ -22,6 +22,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/registers").permitAll()
                         .requestMatchers("/api/vehicles").hasRole("ADMIN")
+                        .requestMatchers("/api/bookings").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());

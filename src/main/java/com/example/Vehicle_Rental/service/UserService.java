@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -30,6 +31,10 @@ public class UserService {
 
 
         return userRepository.save(user);
+    }
+
+    public Optional<User> findUserById(UUID id) {
+        return userRepository.findById(id);
     }
 
     }

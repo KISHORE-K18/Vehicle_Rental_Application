@@ -1,21 +1,19 @@
-package com.example.Vehicle_Rental.dtos;
+package com.example.Vehicle_Rental.Domain;
 
+import com.example.Vehicle_Rental.model.VehicleInfo;
 import com.example.Vehicle_Rental.model.VehicleStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class GetVehicleDetailsResponseDto {
+public class UpdateVehicleRequest {
     private UUID id;
     private String vehicleType;
-    private CreateVehicleInfoResponseDto vehicleInfo;
     private VehicleStatus vehicleStatus;
-    private List<VehicleBookingDto> bookings;
+    private VehicleInfo vehicleInfo;
 }

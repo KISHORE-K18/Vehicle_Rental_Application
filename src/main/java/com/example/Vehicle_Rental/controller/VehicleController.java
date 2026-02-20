@@ -1,10 +1,9 @@
 package com.example.Vehicle_Rental.controller;
 
 import com.example.Vehicle_Rental.Domain.CreateVehicleRequest;
+import com.example.Vehicle_Rental.Domain.UpdateVehicleRequest;
 import com.example.Vehicle_Rental.auth.UserPrincipal;
-import com.example.Vehicle_Rental.dtos.CreateVehicleRequestDto;
-import com.example.Vehicle_Rental.dtos.CreateVehicleResponseDto;
-import com.example.Vehicle_Rental.dtos.GetVehicleDetailsResponseDto;
+import com.example.Vehicle_Rental.dtos.*;
 import com.example.Vehicle_Rental.mapper.VehicleMapper;
 import com.example.Vehicle_Rental.model.Vehicle;
 import com.example.Vehicle_Rental.repository.userRepository;
@@ -25,7 +24,7 @@ import java.util.UUID;
 import static com.example.Vehicle_Rental.Util.utils.parseUserId;
 
 @RestController
-@RequestMapping("/api/vehicles/")
+@RequestMapping("/api/vehicles")
 @RequiredArgsConstructor
 public class VehicleController {
 
@@ -71,5 +70,18 @@ public class VehicleController {
     {
         service.deleteVehicle(vehicleId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/update/{vehicleId}")
+    public ResponseEntity<UpdateVehicleResponseDto> updateVehicle(
+            @PathVariable UUID vehicleId,
+            @Valid @RequestBody UpdateVehicleRequestDto updateVehicleRequestDto
+    )
+    {
+        UpdateVehicleRequest updateVehicleRequest=vehicleMapper.fromDto(updateVehicleRequestDto);
+        Vehicle vehicle = service.updateVehicle(vehicleId, updateVehicleRequest);
+
+        UpdateVehicleResponseDto responseDto = vehicleMapper.toUpdateDto(vehicle);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 }
