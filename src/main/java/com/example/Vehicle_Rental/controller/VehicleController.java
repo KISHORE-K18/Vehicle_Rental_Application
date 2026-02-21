@@ -4,9 +4,12 @@ import com.example.Vehicle_Rental.Domain.CreateVehicleRequest;
 import com.example.Vehicle_Rental.Domain.UpdateVehicleRequest;
 import com.example.Vehicle_Rental.auth.UserPrincipal;
 import com.example.Vehicle_Rental.dtos.*;
+import com.example.Vehicle_Rental.mapper.BookingMapper;
 import com.example.Vehicle_Rental.mapper.VehicleMapper;
+import com.example.Vehicle_Rental.model.Booking;
 import com.example.Vehicle_Rental.model.Vehicle;
 import com.example.Vehicle_Rental.repository.userRepository;
+import com.example.Vehicle_Rental.service.bookingServices.BookingService;
 import com.example.Vehicle_Rental.service.vehicleServices.vehicleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.example.Vehicle_Rental.Util.utils.parseUserId;
 
@@ -28,8 +32,10 @@ import static com.example.Vehicle_Rental.Util.utils.parseUserId;
 @RequiredArgsConstructor
 public class VehicleController {
 
+    private final BookingService bookingService;
     private final vehicleService service;
     private final VehicleMapper vehicleMapper;
+    private final BookingMapper bookingMapper;
 
     @PostMapping
     public ResponseEntity<CreateVehicleResponseDto> createVehicle(
@@ -83,5 +89,20 @@ public class VehicleController {
 
         UpdateVehicleResponseDto responseDto = vehicleMapper.toUpdateDto(vehicle);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/{vehicleId}/bookings")
+    public ResponseEntity<List<GetBookingDetailsDto>> getVehicleBookingHistory(
+            @PathVariable UUID vehicleId
+    )
+    {
+        List<Booking> bookingList=bookingService.getBookingHistoryForVehicle(vehicleId);
+        List<GetBookingDetailsDto > response= bookingList
+                .stream()
+                .map(bookingMapper::toGetBookingDetailsDto)
+                .toList();
+
+        return ResponseEntity.ok(response);
     }
 }

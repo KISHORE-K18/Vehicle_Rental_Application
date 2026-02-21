@@ -24,6 +24,5 @@ public interface VehicleMapper {
     UpdateVehicleResponseDto toUpdateDto(Vehicle vehicle);
     UpdateVehicleInfoResponseDto toUpdateDto(VehicleInfo vehicleInfo);
 
-    List<BookingResponseDto> toBookingSummaryDtos(List<Booking> bookings);
 
 }

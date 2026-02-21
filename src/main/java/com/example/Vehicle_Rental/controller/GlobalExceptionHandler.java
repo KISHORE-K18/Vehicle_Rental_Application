@@ -52,4 +52,20 @@ public class GlobalExceptionHandler {
         errorDto.setError("Vehicle already booked");
         return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(BookingIdNotFound.class)
+    public ResponseEntity<ErrorDto> handleVehicleAlreadyBookedException(BookingIdNotFound ex) {
+        log.error("Caught BookingIdNotFound", ex);
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setError("BookingId not found");
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorDto> handleAccessDeniedException(AccessDeniedException ex) {
+        log.error("Caught AccessDeniedException", ex);
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setError("Access denied");
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
 }

@@ -21,4 +21,6 @@ public interface BookingRepository extends JpaRepository<Booking, UUID> {
             LocalDateTime end,
             LocalDateTime start
     );
+    List<Booking> findByVehicleIdOrderByBookingDateTimeDesc(UUID vehicleId);
+    Booking findByBookingIDAndUserId(UUID bookingId,UUID userId);
 }
