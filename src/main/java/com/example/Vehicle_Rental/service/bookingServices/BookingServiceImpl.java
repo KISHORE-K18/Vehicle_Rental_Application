@@ -5,6 +5,7 @@ import com.example.Vehicle_Rental.dtos.BookingResponseDto;
 import com.example.Vehicle_Rental.exception.*;
 import com.example.Vehicle_Rental.model.*;
 import com.example.Vehicle_Rental.repository.BookingRepository;
+import com.example.Vehicle_Rental.repository.RentalInfoRepository;
 import com.example.Vehicle_Rental.service.UserService;
 import com.example.Vehicle_Rental.service.vehicleServices.vehicleService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,6 +23,7 @@ import java.util.UUID;
 public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
+    private final RentalInfoRepository rentalInfoRepository;
     private final vehicleService vehicleService;
     private final UserService userService;
 
@@ -96,6 +99,12 @@ public class BookingServiceImpl implements BookingService {
 
         // Update booking status
         booking.setStatus(BookingStatus.ON_RENT);
+
+        RentalInfo rentalInfo = new RentalInfo();
+        rentalInfo.setBooking(booking);
+        rentalInfo.setActualPickupTime(LocalDateTime.now());
+
+        rentalInfoRepository.save(rentalInfo);
          bookingRepository.save(booking);
     }
 
@@ -108,6 +117,13 @@ public class BookingServiceImpl implements BookingService {
         if (booking.getStatus() != BookingStatus.ON_RENT) {
             throw new BookingException("Only ON_RENT bookings can be completed");
         }
+
+        RentalInfo rentalInfo = rentalInfoRepository
+                .findByBooking(booking)
+                .orElseThrow(() ->
+                        new RuntimeException("RentalInfo not found"));
+
+        rentalInfo.setActualReturnTime(LocalDateTime.now());
 
         // Update booking status
         booking.setStatus(BookingStatus.COMPLETED);

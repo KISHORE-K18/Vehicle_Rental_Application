@@ -23,6 +23,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/registers").permitAll()
                         .requestMatchers("/api/vehicles").hasRole("ADMIN")
                         .requestMatchers("/api/bookings/**").hasAnyRole("ADMIN","USER")
+                        .requestMatchers("/api/rentalInfo/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());
